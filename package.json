@@ -1,0 +1,45 @@
+{
+  "name": "data-ai-literacy",
+  "version": "1.0.0",
+  "description": "Epic Data & AI Literacy Platform - Interactive learning hub for data science and AI",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && python -m uvicorn app.main:app --reload",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && pip install -e .",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm run test",
+    "test:backend": "cd backend && pytest",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "setup-db": "cd backend && alembic upgrade head",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && eslint . && prettier --check .",
+    "lint:backend": "cd backend && ruff . && black .",
+    "format": "npm run format:frontend && npm run format:backend",
+    "format:frontend": "cd frontend && prettier --write .",
+    "format:backend": "cd backend && black . && ruff --fix ."
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "keywords": [
+    "data-science",
+    "machine-learning",
+    "ai",
+    "education",
+    "interactive-learning",
+    "literacy"
+  ],
+  "author": "Cam Thody",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
