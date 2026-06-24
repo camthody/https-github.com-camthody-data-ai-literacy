@@ -1,0 +1,31 @@
+{
+  "call_id": "jim_demo_001",
+  "title": "Discovery — Northwind Analytics x DL Academy",
+  "date": "2026-06-18T14:00:00Z",
+  "duration_seconds": 1820,
+  "rep": "Cameron Thody",
+  "prospect_company": "Northwind Analytics",
+  "participants": [
+    {"name": "Cameron Thody", "role": "rep"},
+    {"name": "Priya Raman", "role": "prospect", "title": "Head of Data"},
+    {"name": "Marco Bell", "role": "prospect", "title": "Data Engineering Lead"}
+  ],
+  "transcript": [
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 5, "text": "Thanks for making the time, Priya, Marco. I'd love to understand what prompted you to look at a data and AI literacy program right now."},
+    {"speaker": "Priya Raman", "role": "prospect", "ts": 22, "text": "Sure. We've grown the data team to about 40 people, but the wider business — product, ops, finance — can't really interpret the dashboards we ship. Decisions still get made on gut feel."},
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 48, "text": "That's a really common pattern. When a decision gets made on gut feel and it goes wrong, what does that actually cost you?"},
+    {"speaker": "Priya Raman", "role": "prospect", "ts": 70, "text": "Last quarter we over-ordered inventory because someone misread a forecast. That was a few hundred thousand in tied-up capital. It's not a one-off."},
+    {"speaker": "Marco Bell", "role": "prospect", "ts": 95, "text": "And my engineers spend maybe a day a week just re-explaining what metrics mean. It's a tax on the whole team."},
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 120, "text": "Understood. So there's hard cost in bad decisions and a soft cost in your engineers' time. If you fixed the literacy gap, what would good look like in six months?"},
+    {"speaker": "Priya Raman", "role": "prospect", "ts": 145, "text": "Honestly, business teams self-serving the dashboards, asking better questions, and us not being a bottleneck. We'd measure it by fewer ad-hoc data requests and faster decision cycles."},
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 175, "text": "Great — fewer ad-hoc requests and faster cycles are measurable, that helps. Have you tried to solve this before?"},
+    {"speaker": "Marco Bell", "role": "prospect", "ts": 200, "text": "We bought some generic online courses last year. Completion was about 15%. People didn't see how it applied to our data."},
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 225, "text": "So relevance and engagement were the killers. That's exactly where a tailored cohort program tends to win. Who else would need to be involved in evaluating something like this?"},
+    {"speaker": "Priya Raman", "role": "prospect", "ts": 255, "text": "I'd lead it, but our COO Janet sponsors anything that touches the broader org. Budget for L&D sits with her."},
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 280, "text": "Makes sense. We can absolutely build a business case for Janet. What does a typical evaluation process look like for you — pilot first, or straight to a decision?"},
+    {"speaker": "Priya Raman", "role": "prospect", "ts": 305, "text": "We'd want a pilot. If it works with one or two teams we scale it. We're fairly quick once we see proof — weeks, not months."},
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 330, "text": "Perfect. I'll put together a pilot proposal scoped to two teams with success metrics tied to those ad-hoc request numbers. Does it make sense to get 30 minutes with Janet in the next couple of weeks?"},
+    {"speaker": "Priya Raman", "role": "prospect", "ts": 358, "text": "Yes, I can set that up. Send me the proposal and I'll loop her in."},
+    {"speaker": "Cameron Thody", "role": "rep", "ts": 380, "text": "Will do. Thanks both — I'll have the proposal over by Friday."}
+  ]
+}

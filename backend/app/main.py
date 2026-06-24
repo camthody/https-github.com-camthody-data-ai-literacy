@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
 
+from app.call_reviewer.router import router as call_reviewer_router
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -38,6 +40,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Feature routers
+app.include_router(call_reviewer_router)
 
 
 @app.get("/")
