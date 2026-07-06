@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aperture — Hospitality &amp; Food and Drink Marketing, In Focus</title>
+  <meta name="description" content="Aperture is an award-winning marketing agency for hospitality, food and drink brands. Strategy, content and performance that brings restaurants, hotels and bars into perfect focus." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Fonts loaded async so a slow/blocked CDN never delays render or scripts -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" /></noscript>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%23e8c877' stroke-width='6'/%3E%3Cpath d='M50 12 L74 30 L74 62 L50 88 L26 62 L26 30 Z' fill='none' stroke='%23e8c877' stroke-width='4'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- ============ APERTURE INTRO / SHUTTER OVERLAY ============ -->
+  <div class="shutter" id="shutter" aria-hidden="true">
+    <svg class="shutter__svg" id="irisSvg" viewBox="-300 -300 600 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="bladeGrad" cx="50%" cy="42%" r="75%">
+          <stop offset="0%" stop-color="#1a1a1e" />
+          <stop offset="60%" stop-color="#0c0c0e" />
+          <stop offset="100%" stop-color="#050506" />
+        </radialGradient>
+        <linearGradient id="edgeGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8c877" />
+          <stop offset="100%" stop-color="#8a6d2f" />
+        </linearGradient>
+      </defs>
+      <g id="irisBlades"></g>
+    </svg>
+    <div class="shutter__meta">
+      <span class="shutter__label" id="shutterLabel">CALIBRATING LENS</span>
+      <span class="shutter__fstop" id="shutterFstop">f / 1.4</span>
+    </div>
+  </div>
+
+  <!-- ============ FIXED LENS HUD FRAME ============ -->
+  <div class="hud" aria-hidden="true">
+    <span class="hud__corner hud__corner--tl"></span>
+    <span class="hud__corner hud__corner--tr"></span>
+    <span class="hud__corner hud__corner--bl"></span>
+    <span class="hud__corner hud__corner--br"></span>
+    <span class="hud__rec"><i></i>REC</span>
+    <span class="hud__iso">ISO 400 · 1/250 · <span id="hudFstop">f/2.8</span></span>
+  </div>
+
+  <!-- Focus reticle cursor (desktop) -->
+  <div class="reticle" id="reticle" aria-hidden="true">
+    <span class="reticle__ring"></span>
+    <span class="reticle__dot"></span>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__brand" aria-label="Aperture home">
+      <svg class="nav__mark" viewBox="0 0 100 100" width="34" height="34" aria-hidden="true">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="4"/>
+        <path d="M50 10 L74 26 L78 56 L54 84 L24 74 L20 42 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+      </svg>
+      <span class="nav__word">APERTURE</span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="#studio">Studio</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#results">Results</a>
+      <a href="#voices">Voices</a>
+      <a href="#contact" class="nav__cta">Book a call</a>
+    </nav>
+    <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ============ APERTURE RING DIAL NAV ============ -->
+  <aside class="dial" id="dial" aria-label="Aperture ring navigation">
+    <svg class="dial__ring" viewBox="0 0 200 200" id="dialRing">
+      <circle class="dial__track" cx="100" cy="100" r="86" />
+      <g id="dialTicks"></g>
+    </svg>
+    <span class="dial__hub" id="dialHub">f/2.8</span>
+  </aside>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__bg" data-parallax="0.18">
+        <div class="frame frame--a"></div>
+        <div class="frame frame--b"></div>
+        <div class="frame frame--c"></div>
+        <div class="grain"></div>
+        <div class="vignette"></div>
+      </div>
+
+      <div class="hero__inner">
+        <p class="eyebrow reveal">Hospitality · Food &amp; Drink · London</p>
+        <h1 class="hero__title">
+          <span class="reveal" style="--d:.05s">Bring your brand</span>
+          <span class="reveal serif-em" style="--d:.15s">into&nbsp;focus.</span>
+        </h1>
+        <p class="hero__sub reveal" style="--d:.28s">
+          We are the specialist marketing agency for restaurants, hotels, bars and food brands.
+          Strategy, content and performance — engineered to fill tables, sell rooms and grow revenue.
+        </p>
+        <div class="hero__cta reveal" style="--d:.4s">
+          <a href="#contact" class="btn btn--gold">Start the shoot</a>
+          <a href="#work" class="btn btn--ghost">See the reel →</a>
+        </div>
+      </div>
+
+      <div class="hero__scroll reveal" style="--d:.6s">
+        <span>Focus down</span>
+        <span class="hero__scrollbar"><i></i></span>
+      </div>
+
+      <div class="hero__ticker" aria-hidden="true">
+        <div class="ticker__track" id="tickerTrack"></div>
+      </div>
+    </section>
+
+    <!-- ============ STUDIO / MANIFESTO ============ -->
+    <section class="studio" id="studio">
+      <div class="studio__grid">
+        <div class="studio__left">
+          <span class="section-index">01 — Studio</span>
+          <h2 class="studio__head reveal">
+            We start where other<br/>agencies <span class="serif-em">finish.</span>
+          </h2>
+        </div>
+        <div class="studio__right">
+          <p class="reveal" style="--d:.1s">
+            Most agencies spend your budget learning your market. We already know it.
+            Aperture is built by hospitality people for hospitality brands — so every
+            frame we shoot, every campaign we run, is loaded with sector instinct from
+            day one.
+          </p>
+          <p class="reveal" style="--d:.2s">
+            We're commercial-first and measured on growth, not applause. Covers, bookings,
+            room nights and repeat visits — that's the film we develop. The awards are just
+            what happens along the way.
+          </p>
+          <ul class="studio__pills reveal" style="--d:.3s">
+            <li>Commercial-first</li>
+            <li>Sector specialists</li>
+            <li>Award-winning</li>
+            <li>Measured on growth</li>
+          </ul>
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>RESTAURANTS</span><span>◦</span><span>HOTELS</span><span>◦</span><span>BARS</span><span>◦</span><span>FOOD BRANDS</span><span>◦</span><span>CAFÉS</span><span>◦</span><span>LEISURE</span><span>◦</span>
+          <span>RESTAURANTS</span><span>◦</span><span>HOTELS</span><span>◦</span><span>BARS</span><span>◦</span><span>FOOD BRANDS</span><span>◦</span><span>CAFÉS</span><span>◦</span><span>LEISURE</span><span>◦</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES / LENSES ============ -->
+    <section class="services" id="services">
+      <div class="services__head">
+        <span class="section-index">02 — The Lens Kit</span>
+        <h2 class="reveal">Every focal length<br/>your brand needs.</h2>
+        <p class="reveal" style="--d:.15s">Swap lenses, keep the vision. Each service is a different way of framing the same goal — more guests, more spend, more loyalty.</p>
+      </div>
+      <div class="services__grid" id="servicesGrid"></div>
+    </section>
+
+    <!-- ============ WORK / THE REEL ============ -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <span class="section-index">03 — The Reel</span>
+        <h2 class="reveal">Shots from the floor.</h2>
+        <p class="reveal" style="--d:.15s">A frame from the work — hover to pull focus, click to zoom through the aperture.</p>
+      </div>
+      <div class="work__gallery" id="workGallery"></div>
+    </section>
+
+    <!-- ============ RESULTS ============ -->
+    <section class="results" id="results">
+      <div class="results__bg"><div class="grain"></div></div>
+      <span class="section-index section-index--light">04 — Exposure</span>
+      <h2 class="results__head reveal">The numbers, developed.</h2>
+      <div class="results__grid" id="resultsGrid"></div>
+      <p class="results__foot reveal">Illustrative of the outcomes we shoot for. Your results are the ones that matter — let's expose them together.</p>
+    </section>
+
+    <!-- ============ VOICES / TESTIMONIALS ============ -->
+    <section class="voices" id="voices">
+      <span class="section-index">05 — Voices</span>
+      <h2 class="voices__head reveal">Heard on the pass.</h2>
+      <div class="voices__stage">
+        <div class="voices__track" id="voicesTrack"></div>
+        <div class="voices__nav">
+          <button id="voicePrev" aria-label="Previous">‹</button>
+          <span class="voices__dots" id="voiceDots"></span>
+          <button id="voiceNext" aria-label="Next">›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT / CTA ============ -->
+    <section class="contact" id="contact">
+      <div class="contact__aperture" id="contactAperture" aria-hidden="true"></div>
+      <div class="contact__inner">
+        <span class="section-index section-index--light">06 — Open the shutter</span>
+        <h2 class="contact__head reveal">Let's bring your<br/><span class="serif-em">next chapter</span> into focus.</h2>
+        <p class="contact__sub reveal" style="--d:.12s">Tell us about your brand. We'll come back with the shot list — no jargon, no fluff, just a plan built to grow revenue.</p>
+
+        <form class="contact__form reveal" style="--d:.2s" id="contactForm" novalidate>
+          <div class="field">
+            <input type="text" id="cf-name" name="name" required placeholder=" " />
+            <label for="cf-name">Your name</label>
+          </div>
+          <div class="field">
+            <input type="text" id="cf-brand" name="brand" required placeholder=" " />
+            <label for="cf-brand">Brand / venue</label>
+          </div>
+          <div class="field">
+            <input type="email" id="cf-email" name="email" required placeholder=" " />
+            <label for="cf-email">Email</label>
+          </div>
+          <div class="field field--full">
+            <textarea id="cf-msg" name="message" rows="3" placeholder=" "></textarea>
+            <label for="cf-msg">What are you trying to grow?</label>
+          </div>
+          <button type="submit" class="btn btn--gold btn--wide">Send the brief</button>
+          <p class="contact__note" id="formNote" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <svg viewBox="0 0 100 100" width="40" height="40" aria-hidden="true">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M50 10 L74 26 L78 56 L54 84 L24 74 L20 42 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <span>APERTURE</span>
+      </div>
+      <p class="footer__tag">Marketing for hospitality, food &amp; drink — in perfect focus.</p>
+    </div>
+    <div class="footer__links">
+      <div>
+        <h4>Studio</h4>
+        <a href="#studio">About</a>
+        <a href="#work">The reel</a>
+        <a href="#results">Results</a>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <a href="#services">Social</a>
+        <a href="#services">Paid media</a>
+        <a href="#services">Websites</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="#contact">Book a call</a>
+        <a href="#" data-noop>Instagram</a>
+        <a href="#" data-noop>LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer__base">
+      <span>© <span id="year"></span> Aperture Comms · London</span>
+      <span class="footer__made">Recreated as a concept — dynamic build in vanilla JS</span>
+    </div>
+  </footer>
+
+  <script defer src="assets/js/aperture.js"></script>
+  <script defer src="assets/js/main.js"></script>
+</body>
+</html>
