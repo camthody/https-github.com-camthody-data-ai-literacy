@@ -1,13 +1,43 @@
 # BAYK website
 
-A rebuilt website for BAYK, replacing the Base44 site at bayk-by-cam.base44.app. Plain HTML, CSS and JavaScript with no build step, so it can be hosted anywhere.
+An immersive, single-page website for BAYK, replacing the Base44 site at bayk-by-cam.base44.app.
 
-- `index.html`: home page covering Weekly, At Work, Private dining, Kitchen, how it works, the plan builder, gallery, About, Journal, newsletter and contact.
-- `work.html`: BAYK at Work, the corporate page to send to companies.
-- `assets/site.css`: the BAYK identity and layout.
-- `assets/site.js`: interactions and the `CONFIG` block for prices, cut-off and forms.
+A live 3D ember field (WebGL, built with three.js) sits behind the whole page and reshapes itself as you scroll:
+
+- The BAYK logo in the hero
+- A plate for BAYK Weekly
+- A serving cloche for Private dining
+- A flame for BAYK Kitchen
+- "HUNGRY?" on the contact section
+
+The embers scatter away from the cursor or a finger.
+
+## Other features
+
+- A loading counter.
+- Smooth scrolling (Lenis).
+- A custom cursor.
+- Magnetic buttons.
+- Headline letters that stretch towards the cursor.
+- A manifesto that lights up word by word as you scroll.
+- A pinned sideways gallery.
+- A scrolling banner that reacts to scroll speed.
+- A full-screen menu with dish previews.
+- A live countdown to the order cut-off.
+- The weekly plan builder with its order ticket.
+
+Plain HTML, CSS and JavaScript with no build step. The two libraries load from public CDNs.
+
+- `index.html`: the whole site.
+- `assets/site.css`: the BAYK "Embers" identity and layout.
+- `assets/site.js`: the 3D scene, interactions and the `CONFIG` block for prices, cut-off and forms.
 - `assets/img/`: food photos.
 - `BUSINESS_MODEL.md`: the simplified, scalable business model behind the site.
+
+## Accessibility and fallbacks
+
+- **Reduced motion:** visitors who ask their device for reduced motion get a calm version with no loader, no smooth scrolling and almost still embers.
+- **No WebGL:** browsers without WebGL get a static ember glow instead of the 3D scene. Everything else still works.
 
 ## Preview locally
 
@@ -25,11 +55,11 @@ npx serve website
 Everything below is a placeholder or an assumption, not a fact about BAYK.
 
 1. **Prices:** set them in `CONFIG.prices` in `assets/site.js`. While they're `null`, the site shows `[£]`.
-2. **Order cut-off:** `CONFIG.cutoff` is set to Friday at 18:00 UK time as a placeholder. Change it to your real cut-off. Delivery is Monday, as on the old site.
-3. **Forms:** create a free Formspree form (or similar) and paste its URL into `CONFIG.formEndpoint`. Until then, the contact and enquiry forms send nothing. Instead they show visitors a copy of their request and ask them to email cameron@thody.me.
+2. **Order cut-off:** `CONFIG.cutoff` is set to Friday at 18:00 UK time as a placeholder, and the countdown in the top bar uses it. Change it to your real cut-off. Delivery is Monday, as on the old site.
+3. **Forms:** create a free Formspree form (or similar) and paste its URL into `CONFIG.formEndpoint`. Until then, the contact form sends nothing. Instead it shows visitors a copy of their request and asks them to email cameron@thody.me.
 4. **Newsletter:** paste your newsletter provider's form URL into `CONFIG.newsletterEndpoint`.
-5. **Delivery area:** replace `[delivery area]` in the contact section of `index.html`.
-6. **Testimonial and client logos:** replace the `[Client testimonial ...]` block in the About section.
+5. **Delivery area:** replace `[delivery area]` in the contact section.
+6. **Testimonial:** replace the `[Client testimonial ...]` block in the Story section.
 7. **Photos:**
    - The four food photos were cropped from screenshots of the old site, so they're only about 400px wide.
    - Swap in the originals at 1600px or larger, keeping the same filenames.
@@ -45,28 +75,30 @@ Everything below is a placeholder or an assumption, not a fact about BAYK.
     - Regular and lighter portions
     - Limited private dining dates
     - The BAYK Kitchen membership
-    - The four corporate formats
 
-    These come from the proposed model in `BUSINESS_MODEL.md`. Change any of them in the HTML.
+    These come from the proposed model in `BUSINESS_MODEL.md`.
 11. **Access page:** the old site had an Access page whose purpose I couldn't see, so it hasn't been carried over.
 12. **What's in season:**
     - The UK seasonal produce list in `assets/site.js` is general guidance by month, not BAYK's menu.
 
-## Brand reference
+## Brand reference ("Embers")
 
 | Role | Colour | Hex |
 |---|---|---|
-| Primary | Claret | `#5a1824` |
-| Deep | Deep claret | `#3a0f17` |
-| Accent | Saffron | `#e2a63b` |
-| Text | Ink | `#1b1716` |
-| Page | Paper | `#fbfaf7` |
-| Lines | Steel | `#cfd3d0` |
+| Background | Char | `#0b0908` |
+| Panels | Soot | `#221b18` |
+| Text | Bone | `#f3ece4` |
+| Muted text | Ash | `#a0958b` |
+| Heat gradient | Ember | `#ff5a1f` |
+| Heat gradient | Flame | `#ffa047` |
+| Heat gradient | Glow | `#ffd7a1` |
+
+The heat gradient runs ember to flame to glow.
 
 **Fonts (all on Google Fonts):**
 
-- Bodoni Moda for headings and the wordmark
-- Schibsted Grotesk for body text
-- IBM Plex Mono for labels and the order ticket
+- Anybody, a variable font whose width can stretch, for headings and the wordmark
+- Geist for body text
+- Geist Mono for labels and the order ticket
 
-**Logo:** the BAYK wordmark in Bodoni Moda with wide letter spacing, next to a line-drawn bay leaf.
+**Logo:** "BAYK" in Anybody at full width and black weight, followed by a glowing ember dot.
