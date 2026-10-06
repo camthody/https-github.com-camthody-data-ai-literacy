@@ -22,6 +22,12 @@ const CONFIG = {
 
   const root = document.documentElement;
   root.classList.add("js");
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  const hashTarget = () => {
+    const id = window.location.hash.slice(1);
+    return id && /^[\w-]+$/.test(id) ? document.getElementById(id) : null;
+  };
+  if (!hashTarget()) window.scrollTo(0, 0);
   const page = document.body.dataset.page || "";
   const $ = (sel, scope = document) => scope.querySelector(sel);
   const $$ = (sel, scope = document) => Array.from(scope.querySelectorAll(sel));
@@ -86,7 +92,7 @@ const CONFIG = {
   let service = serviceDates();
   function renderService() {
     if (!service) return;
-    BAYK.deliveryShort = shortDate(service.delivery).toUpperCase();
+    BAYK.deliveryShort = shortDate(service.delivery);
     $$("[data-delivery-short]").forEach((el) => (el.textContent = shortDate(service.delivery)));
     $$("[data-delivery-long]").forEach((el) => (el.textContent = longDate(service.delivery)));
     $$("[data-cutoff-short]").forEach((el) => (el.textContent = `${shortDate(service.cutoffDay)}, ${cutoffTime}`));
@@ -99,7 +105,7 @@ const CONFIG = {
     const d = Math.floor(s / 86400); s -= d * 86400;
     const h = Math.floor(s / 3600); s -= h * 3600;
     const m = Math.floor(s / 60); s -= m * 60;
-    const text = `${d}d ${pad(h)}:${pad(m)}:${pad(s)}`;
+    const text = `${d} ${d === 1 ? "day" : "days"} ${pad(h)}:${pad(m)}:${pad(s)}`;
     $$("[data-countdown]").forEach((el) => (el.textContent = text));
     const parts = { d: pad(d), h: pad(h), m: pad(m), s: pad(s) };
     $$("[data-cd]").forEach((el) => { if (el.textContent !== parts[el.dataset.cd]) el.textContent = parts[el.dataset.cd]; });
@@ -185,7 +191,6 @@ const CONFIG = {
   /* ---------------------------------------------------------------- Menu */
   const menu = $("#menu");
   const menuBtn = $(".menu-btn");
-  const menuPreview = $(".menu-preview");
   const menuOpen = () => !!menu && menu.classList.contains("is-open");
   function setMenu(open) {
     if (!menu) return;
@@ -199,11 +204,6 @@ const CONFIG = {
     menu.inert = true;
     if (menuBtn) menuBtn.addEventListener("click", () => setMenu(!menuOpen()));
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menuOpen()) { setMenu(false); if (menuBtn) menuBtn.focus(); } });
-    $$("a[data-img]", menu).forEach((a) => {
-      const show = () => { if (menuPreview && menuPreview.getAttribute("src") !== a.dataset.img) menuPreview.src = a.dataset.img; };
-      a.addEventListener("pointerenter", show);
-      a.addEventListener("focus", show);
-    });
   }
 
   /* ---------------------------------------------------------------- Page transitions */
@@ -248,6 +248,7 @@ const CONFIG = {
   store.set("bayk-curtain", "0");
   if (curtain && arrivedByCurtain && !reduceMotion) curtain.classList.add("is-hold");
   window.addEventListener("pageshow", (e) => {
+    if (e.persisted && !hashTarget()) window.scrollTo(0, 0);
     if (e.persisted && curtain) { root.classList.remove("arriving"); curtain.classList.remove("is-covering", "is-hold"); curtain.classList.add("is-leaving"); }
   });
 
@@ -265,61 +266,12 @@ const CONFIG = {
   window.addEventListener("pointerup", endDrag, { passive: true });
   window.addEventListener("pointercancel", endDrag, { passive: true });
 
-  const cursor = $(".cursor");
-  const cursorDot = $(".cursor-dot");
-  const cursorRing = $(".cursor-ring");
-  const cursorLabel = $(".cursor-label");
-  const ring = { x: P.x, y: P.y };
-  const useCursor = finePointer && !reduceMotion && cursor;
-  let hoverTarget = null;
-  function paintCursor() {
-    if (!useCursor) return;
-    let label = hoverTarget && hoverTarget.dataset.cursor;
-    if (hoverTarget && hoverTarget.hasAttribute("data-drag") && BAYK.hoverObject) label = hoverTarget.dataset.cursorObject || label;
-    if (BAYK.drag.active) label = "";
-    cursor.classList.toggle("is-label", !!label);
-    cursor.classList.toggle("is-hover", !!hoverTarget && !label);
-    cursor.classList.toggle("is-down", P.down && !label);
-    if (cursorLabel.textContent !== (label || "")) cursorLabel.textContent = label || "";
-  }
-  if (useCursor) {
-    root.classList.add("has-cursor");
-    document.addEventListener("pointerover", (e) => {
-      hoverTarget = e.target.closest("[data-cursor], [data-cursor-hover], a, button, label, [data-drag]");
-    });
-    document.documentElement.addEventListener("pointerleave", () => { cursor.style.opacity = "0"; });
-    document.documentElement.addEventListener("pointerenter", () => { cursor.style.opacity = "1"; });
-  }
-
-  /* Buttons that lean towards the pointer */
-  if (finePointer && !reduceMotion) {
-    $$("[data-magnetic]").forEach((el) => {
-      el.style.transition = "transform .6s cubic-bezier(.16,1,.3,1), color .45s cubic-bezier(.16,1,.3,1), border-color .45s cubic-bezier(.16,1,.3,1)";
-      el.addEventListener("pointermove", (e) => {
-        const r = el.getBoundingClientRect();
-        el.style.transform = `translate(${(e.clientX - (r.left + r.width / 2)) * 0.2}px, ${(e.clientY - (r.top + r.height / 2)) * 0.3}px)`;
-      });
-      el.addEventListener("pointerleave", () => { el.style.transform = ""; });
-    });
-  }
-
-  /* Image that follows the pointer over index rows */
-  const floatImg = $(".float-img");
-  const floatPos = { x: 0, y: 0, r: 0 };
-  if (floatImg && finePointer && !reduceMotion) {
-    $$("[data-float]").forEach((a) => {
-      a.addEventListener("pointerenter", () => {
-        if (floatImg.getAttribute("src") !== a.dataset.float) floatImg.src = a.dataset.float;
-        floatImg.classList.add("is-on");
-      });
-      a.addEventListener("pointerleave", () => floatImg.classList.remove("is-on"));
-    });
-  }
+  /* The normal system cursor is used everywhere. Over the 3D pieces it shows a grab hand. */
+  const dragZones = $$("[data-drag]");
 
   /* ---------------------------------------------------------------- Home: lift the lid */
   const revealStage = $("[data-reveal-stage]");
   const revealSticky = revealStage && $(".reveal-sticky", revealStage);
-  const lidPct = $("[data-lid-pct]");
   function revealTargetY(p) {
     const r = revealStage.getBoundingClientRect();
     return r.top + window.scrollY + p * (r.height - window.innerHeight);
@@ -357,7 +309,7 @@ const CONFIG = {
 
   /* ---------------------------------------------------------------- Weekly: plan builder and order ticket */
   const builder = $("#builder");
-  const ticket = $(".ticket");
+  const ticket = $(".summary");
   function readPlan() {
     const data = new FormData(builder);
     return { meals: +data.get("meals"), diet: data.get("diet"), portion: data.get("portion") };
@@ -399,10 +351,10 @@ const CONFIG = {
     const m = hash.match(/^plan-(\d+)-([a-z]+)-([a-z]+)$/);
     if (m) {
       const when = service ? longDate(service.delivery) : "the next Monday delivery";
-      contactForm.elements.interest.value = "BAYK Weekly";
-      contactForm.elements.message.value = `I'd like to start BAYK Weekly: ${m[1]} meals a week, ${m[2]}, ${m[3]} portions, starting ${when}.`;
+      contactForm.elements.interest.value = "Weekly meal prep";
+      contactForm.elements.message.value = `I'd like to start weekly meal prep: ${m[1]} meals a week, ${m[2]}, ${m[3]} portions, starting ${when}.`;
     }
-    const interest = { "ask-weekly": "BAYK Weekly", "ask-private": "Private dining", "ask-kitchen": "BAYK Kitchen" }[hash];
+    const interest = { "ask-weekly": "Weekly meal prep", "ask-private": "Private dining", "ask-kitchen": "BAYK Kitchen" }[hash];
     if (interest) contactForm.elements.interest.value = interest;
   }
 
@@ -496,20 +448,20 @@ const CONFIG = {
           body.append("form", kind);
           const res = await fetch(endpoint, { method: "POST", headers: { Accept: "application/json" }, body });
           if (!res.ok) throw new Error(String(res.status));
-          status(form, [el("p", {}, isNewsletter ? "You're on the list. Look out for the next recipe." : "Thanks. Your request has been sent and you'll get a reply soon.")]);
+          status(form, [el("p", {}, isNewsletter ? "Thank you, you're on the list. The next recipe will be with you soon." : "Thank you, that's come through. I'll be in touch shortly to confirm everything.")]);
           form.reset();
           return;
         } catch (_) { /* fall through to the email fallback */ }
       }
       if (isNewsletter) {
-        status(form, [el("p", {}, `Sign-up isn't connected yet. Email ${CONFIG.contactEmail} with "Newsletter" and you'll be added.`)]);
+        status(form, [el("p", {}, `Sign-up isn't connected yet. Please can you email me at ${CONFIG.contactEmail} with "Newsletter" and I'll add you?`)]);
         return;
       }
       const pre = el("pre", {}, text);
-      const btn = el("button", { type: "button", class: "copy-btn" }, "Copy request");
+      const btn = el("button", { type: "button", class: "copy-btn" }, "Copy message");
       btn.addEventListener("click", () => copyText(text, btn, pre));
       status(form, [
-        el("p", {}, `This form isn't connected to an inbox yet, so nothing has been sent. Copy your request and email it to ${CONFIG.contactEmail}.`),
+        el("p", {}, `This form isn't connected yet, so nothing has been sent. Please can you copy your message below and email it to me at ${CONFIG.contactEmail}?`),
         pre,
         btn,
       ]);
@@ -525,7 +477,7 @@ const CONFIG = {
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
-      label.textContent = "Press Ctrl+C";
+      label.textContent = "Select and copy";
     };
     try { navigator.clipboard.writeText(text).then(done, select); } catch (_) { select(); }
   }
@@ -577,6 +529,10 @@ const CONFIG = {
       }
     }
     if (lenis) lenis.start();
+    const target = hashTarget();
+    if (target) scrollToTarget(target, { immediate: true });
+    else if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    else window.scrollTo(0, 0);
     window.dispatchEvent(new Event("bayk:intro"));
     setTimeout(playIntro, reduceMotion ? 0 : 350);
   })();
@@ -610,7 +566,6 @@ const CONFIG = {
         revealSticky.classList.toggle("is-revealed", revealed);
         manual.forEach((m) => m.classList.toggle("is-in", revealed));
       }
-      if (lidPct) lidPct.textContent = `${String(Math.round(clamp(BAYK.reveal / 0.8, 0, 1) * 100)).padStart(2, "0")}%`;
     }
 
     // Manifesto
@@ -621,22 +576,11 @@ const CONFIG = {
       if (lit !== litCount) { litCount = lit; scrubWords.forEach((w, i) => w.classList.toggle("is-lit", i < lit)); }
     }
 
-    // Cursor
-    if (useCursor) {
-      ring.x = lerp(ring.x, P.x, 0.2);
-      ring.y = lerp(ring.y, P.y, 0.2);
-      cursorDot.style.transform = `translate3d(${P.x}px, ${P.y}px, 0)`;
-      cursorRing.style.transform = `translate3d(${ring.x}px, ${ring.y}px, 0)`;
-      paintCursor();
-    }
-    if (floatImg) {
-      if (floatImg.classList.contains("is-on")) {
-        floatPos.x = lerp(floatPos.x, P.x, 0.14);
-        floatPos.y = lerp(floatPos.y, P.y, 0.14);
-        floatPos.r = lerp(floatPos.r, clamp((P.x - floatPos.x) * 0.08, -10, 10), 0.2);
-        floatImg.style.transform = `translate3d(${floatPos.x + 30}px, ${floatPos.y - 150}px, 0) rotate(${floatPos.r}deg)`;
-      } else { floatPos.x = P.x; floatPos.y = P.y; }
-    }
+    // Grab hand over the 3D pieces; a pointing hand over the home cloche (click lifts it)
+    dragZones.forEach((z) => {
+      z.classList.toggle("is-grabbing", BAYK.drag.active);
+      z.classList.toggle("is-pointing", !BAYK.drag.active && BAYK.hoverObject && z.hasAttribute("data-lift-zone"));
+    });
   }
   requestAnimationFrame(frame);
 })();

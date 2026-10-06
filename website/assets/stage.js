@@ -35,7 +35,7 @@
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.82;
   renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.setClearColor(0x0b0908, 1);
+  renderer.setClearColor(0x120d0b, 1);
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -52,7 +52,7 @@
     const soft = new THREE.Mesh(new THREE.PlaneGeometry(4, 4), new THREE.MeshBasicMaterial({ color: new THREE.Color(6, 6, 6) }));
     soft.position.set(-2, 4.5, 2); soft.lookAt(0, 0, 0); envScene.add(soft);
   }
-  const warmPanel = new THREE.Mesh(new THREE.PlaneGeometry(9, 2.5), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.6, 0.55, 0.18), side: THREE.DoubleSide }));
+  const warmPanel = new THREE.Mesh(new THREE.PlaneGeometry(9, 2.5), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.4, 0.72, 0.38), side: THREE.DoubleSide }));
   warmPanel.position.set(0, -2.5, 2.5); warmPanel.lookAt(0, 0, 0);
   envScene.add(warmPanel);
   scene.environment = pmrem.fromScene(envScene, 0.04).texture;
@@ -79,9 +79,9 @@
         vec2 m = (uMouse - 0.5) * vec2(asp, 1.0);
         float glowF = 1.0 - smoothstep(0.0, 0.95, length((p - f) * vec2(0.8, 1.0)));
         float glowM = 1.0 - smoothstep(0.0, 0.5, length(p - m));
-        vec3 col = vec3(0.043, 0.035, 0.031);
-        col += vec3(0.30, 0.085, 0.03) * s * s * (0.25 + glowF * 1.1) * uWarm;
-        col += vec3(0.5, 0.2, 0.07) * glowM * 0.05 * (0.5 + s);
+        vec3 col = vec3(0.07, 0.051, 0.043);
+        col += vec3(0.24, 0.12, 0.065) * s * s * (0.25 + glowF * 1.05) * uWarm;
+        col += vec3(0.42, 0.24, 0.13) * glowM * 0.05 * (0.5 + s);
         float vig = smoothstep(1.35, 0.15, length(p * vec2(0.8, 1.05)));
         col *= 0.5 + 0.5 * vig;
         col += (hash(vUv * uRes + uTime) - 0.5) * 0.012;
@@ -188,9 +188,9 @@
     c.width = c.height = 256;
     const g = c.getContext("2d");
     const grd = g.createRadialGradient(128, 128, 0, 128, 128, 128);
-    grd.addColorStop(0, "rgba(255,150,80,1)");
-    grd.addColorStop(0.35, "rgba(255,90,31,0.45)");
-    grd.addColorStop(1, "rgba(255,90,31,0)");
+    grd.addColorStop(0, "rgba(236,164,112,1)");
+    grd.addColorStop(0.35, "rgba(205,112,62,0.45)");
+    grd.addColorStop(1, "rgba(205,112,62,0)");
     g.fillStyle = grd;
     g.fillRect(0, 0, 256, 256);
     const t = new THREE.CanvasTexture(c);
@@ -245,7 +245,7 @@
           float d = length(gl_PointCoord - 0.5);
           if (d > 0.5) discard;
           float core = pow(1.0 - smoothstep(0.0, 0.5, d), 2.4);
-          vec3 col = mix(vec3(1.0, 0.32, 0.07), vec3(1.0, 0.86, 0.6), vHot * vHot);
+          vec3 col = mix(vec3(0.95, 0.5, 0.24), vec3(1.0, 0.88, 0.7), vHot * vHot);
           gl_FragColor = vec4(col * 1.4, core * vA);
         }`,
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
@@ -326,15 +326,15 @@
     const c = document.createElement("canvas");
     c.width = 512; c.height = 160;
     const g = c.getContext("2d");
-    g.fillStyle = "#efe7dc"; g.fillRect(0, 0, 512, 160);
-    g.fillStyle = "#ff5a1f"; g.fillRect(0, 0, 10, 160);
-    g.fillStyle = "#14100e";
+    g.fillStyle = "#efe4d6"; g.fillRect(0, 0, 512, 160);
+    g.fillStyle = "#c07650"; g.fillRect(0, 0, 10, 160);
+    g.fillStyle = "#1a110c";
     g.font = '900 64px Anybody, "Arial Black", sans-serif';
     if ("fontStretch" in g) g.fontStretch = "extra-expanded";
     g.fillText("BAYK", 36, 78);
     if ("fontStretch" in g) g.fontStretch = "normal";
-    g.font = '500 26px "Geist Mono", ui-monospace, monospace';
-    g.fillStyle = "#6b625b";
+    g.font = '500 26px Geist, "Helvetica Neue", Arial, sans-serif';
+    g.fillStyle = "#6e6156";
     g.fillText(text, 38, 126);
     const t = new THREE.CanvasTexture(c);
     t.encoding = THREE.sRGBEncoding;
@@ -450,7 +450,7 @@
     focus = isSmall() ? { x: 0.5, y: 0.35 } : { x: 0.62, y: 0.55 };
     turn.add(contactShadow(5.2, 5.2, 0.9));
   } else if (kind === "weekly") {
-    const tex = labelTexture(S.deliveryShort ? `DELIVERY ${S.deliveryShort}` : "WEEKLY MENU");
+    const tex = labelTexture(S.deliveryShort ? `Delivery ${S.deliveryShort}` : "Weekly meal prep");
     const boxes = [];
     for (let i = 0; i < 15; i++) {
       const c = makeContainer(tex);

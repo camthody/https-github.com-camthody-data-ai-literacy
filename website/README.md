@@ -4,10 +4,10 @@ A multi-page, immersive website for BAYK, replacing the Base44 site at bayk-by-c
 
 | Page | File | 3D centrepiece |
 |---|---|---|
-| Home | `index.html` | A copper cloche on a plate. Drag to turn it; scroll (or press "Lift the lid") to lift the lid on a glowing ember dish. |
-| Weekly | `weekly.html` | A stack of BAYK meal-prep containers that grows and shrinks as you pick 5, 10 or 15 meals in the plan builder. |
+| Home | `index.html` | A copper cloche on a plate. Drag to turn it; scroll (or click the cloche) to lift the lid on a glowing ember dish. |
+| Weekly meal prep | `weekly.html` | A stack of BAYK meal-prep containers that grows and shrinks as you pick 5, 10 or 15 meals in the plan builder. |
 | Private dining | `private-dining.html` | Cloche, plate and a glass of red. |
-| Kitchen | `kitchen.html` | A cast-iron pan searing over a gas flame. |
+| BAYK Kitchen | `kitchen.html` | A cast-iron pan searing over a gas flame. |
 | Journal | `journal.html` | Smoke and sparks, with topic tabs. |
 | About | `about.html` | A slowly turning ember. |
 | Contact | `contact.html` | A slowly turning ember. |
@@ -15,15 +15,24 @@ A multi-page, immersive website for BAYK, replacing the Base44 site at bayk-by-c
 ## Also included
 
 - An animated curtain transition between pages.
-- A loading counter on the first visit to Home.
+- A short loading screen on the first visit to Home.
 - Smooth scrolling (Lenis).
-- A custom cursor with labels such as "Drag" and "Lift".
-- Magnetic buttons.
+- Every page opens at the top, including after a reload or the back button.
+- The normal system cursor, with a grab hand over the 3D pieces you can turn.
 - Headings whose letters rise into place.
 - A manifesto that lights up word by word as you scroll.
-- Rows that follow the cursor with a dish photo.
 - A live countdown to the order cut-off, shown in the top bar and as big digits on Home.
-- The weekly plan builder with its order ticket. "Send this ticket" opens Contact with the request filled in.
+- The weekly plan builder with its order summary. "Send my request" opens Contact with the request filled in.
+
+## Voice
+
+The copy is written in Cam's voice:
+- First person.
+- Warm and plain.
+- British English.
+- No kitchen jargon, gimmicky lines, numbering or em dashes.
+
+Lines from the original BAYK site are kept wherever they exist.
 
 Plain HTML, CSS and JavaScript with no build step. The libraries load from the jsDelivr CDN.
 
@@ -85,22 +94,23 @@ Everything below is a placeholder or an assumption, not a fact about BAYK.
 
 | Role | Colour | Hex |
 |---|---|---|
-| Background | Char | `#0b0908` |
-| Panels | Soot | `#1f1916` |
-| Text | Bone | `#f3ece4` |
-| Muted text | Ash | `#a3988e` |
-| Heat gradient | Ember | `#ff5a1f` |
-| Heat gradient | Flame | `#ffa047` |
-| Heat gradient | Glow | `#ffd7a1` |
+| Background | Espresso | `#120d0b` |
+| Panels | Soot | `#261b17` |
+| Text | Cream | `#efe4d6` |
+| Secondary text | Ash | `#ac9d8f` |
+| Accent | Copper | `#c07650` |
+| Accent text and links | Light copper | `#d99a6c` |
+| Highlight | Glow | `#f2d3b3` |
+| Live indicators only | Ember | `#ff6a2b` |
 
-The heat gradient runs ember to flame to glow.
+The copper sheen gradient runs copper to light copper to glow. It's used for primary buttons and emphasised words.
 
 **Fonts (all on Google Fonts):**
 
 - Anybody, a variable font whose width can stretch, for headings and the wordmark
 - Geist for body text
-- Geist Mono for labels, the ticker and the order ticket
+- Geist Mono for small numbers
 
 **Icons:** a small line-icon set built into each page (arrows, delivery, clock, leaf, flame, bowl, book, list, calendar, guests, contact).
 
-**Logo:** "BAYK" in Anybody at full width and black weight, followed by a glowing ember dot.
+**Logo:** "BAYK" in Anybody at full width and black weight, followed by a copper dot.
